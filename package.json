@@ -1,0 +1,11 @@
+{
+  "name": "vform",
+  "version": "0.0.1",
+  "description": "Form validation for Vue.js",
+  "main": "vform.js",
+  "author": "Wszerad Martynowski",
+  "license": "MIT",
+  "devDependencies": {
+    "vue": "^1.2.21"
+  }
+}

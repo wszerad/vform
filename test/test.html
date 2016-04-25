@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="../vue.js"></script>
+	<script src="../vform.js"></script>
+	<script src="../mongoose/mongoose.js"></script>
+</head>
+<body id="body">
+	<comp></comp>
+
+<script type="text/javascript">
+	var schema = new mongoose.Schema({
+		name: {type: String, match: /Holy Grail/i, required: true}
+	});
+
+	
+	var child = Vue.component('child', {
+		props: ['model'],
+		template: '<div><input type="text" v-model="model" v-validate:name></div>'
+	});
+
+	var comp = Vue.component('comp', {
+		data: function() {
+			return {
+				doc: new mongoose.Schema({
+					name: {type: String, match: /Holy Grail/i, required: true}
+				})
+			};
+		},
+		template: '<form name="test" v-form="doc"><child :model="doc.name"></child></form>{{ddc|json}}{{vform|json}}',
+		components: {
+			child: child
+		}
+	});
+
+	new Vue({
+		el: '#body',
+		components: {
+			comp: comp
+		}
+	})
+</script>
+</body>
+</html>
