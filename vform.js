@@ -2,6 +2,7 @@
     var vueForm = {};
     vueForm.install = function (Vue, options) {
         var invalidClass = 'v-invalid',
+            pendingClass = 'v-pending',
             validClass = 'v-valid',
             dirtyClass = 'v-dirty',
             pristineClass = 'v-pristine',
@@ -20,6 +21,17 @@
 	                if(err)
 	                    self.$setValidity(err.kind, false);
                 });
+            };
+        
+        var inputInit = options.inputInit || function(input) {
+                var maxlength = input.$form.$schema.path(input.$name).options.maxlength;
+                if(maxlength !== undefined) {
+                    input.$el.maxLength = maxlength;
+                }
+            };
+        
+        var formInit = options.formInit || function(form) {
+                
             };
 
         function setValidity(self, key, isValid) {
@@ -102,8 +114,15 @@
                 value = true;
             else
                 value = !!value;
-
+            
             self.$pending = value;
+            
+            if(value) {
+                Vue.util.addClass(self.$el, pendingClass);
+            } else {
+                Vue.util.removeClass(self.$el, pendingClass);
+            }
+            
             return value;
         }
 
@@ -321,6 +340,8 @@
                     schema = vm.$eval(this.expression);
 
                 var vform = this.$form = new Form(el, vm, schema);
+                
+                formInit(vform);
                 vform.$setPristine();
                 vform.$setValidity(true);
                 vform.$setSubmitted(false);
@@ -376,6 +397,7 @@
                 var vform = attachForm(scope),
                     vinput = this.$input = new Input(el, scope, name, vform);
 
+                inputInit(vinput);
                 vinput.$setPristine();
                 vinput.$setValidity(true);
 

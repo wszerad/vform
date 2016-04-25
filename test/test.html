@@ -11,10 +11,9 @@
 	<comp></comp>
 
 <script type="text/javascript">
-	var schema = new mongoose.Schema({
-		name: {type: String, match: /Holy Grail/i, required: true}
-	});
-
+//	var schema = new mongoose.Schema({
+//		name: {type: String, match: /Holy Grail/i, required: true, maxlength: 10}
+//	});
 	
 	var child = Vue.component('child', {
 		props: ['model'],
@@ -25,7 +24,7 @@
 		data: function() {
 			return {
 				doc: new mongoose.Schema({
-					name: {type: String, match: /Holy Grail/i, required: true}
+					name: {type: String, match: /Holy Grail/i, required: true, maxlength:10}
 				})
 			};
 		},
